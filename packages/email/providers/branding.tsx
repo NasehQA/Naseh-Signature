@@ -6,6 +6,12 @@ type BrandingContextValue = {
   brandingLogo: string;
   brandingCompanyDetails: string;
   brandingHidePoweredBy: boolean;
+  /**
+   * Optional per-document co-branding logo (public image URL). Independent of the
+   * team/org brand logo — when set, it's shown next to it so the recipient sees
+   * both the platform brand and the signer's own company logo.
+   */
+  companyLogo?: string;
 };
 
 const BrandingContext = createContext<BrandingContextValue | undefined>(undefined);

@@ -23,7 +23,9 @@ import {
 } from '../../utils/team-global-settings-to-branding';
 import { extractDerivedTeamSettings } from '../../utils/teams';
 
-type EmailMetaOption = Partial<Pick<DocumentMeta, 'emailId' | 'emailReplyTo' | 'language'>>;
+type EmailMetaOption = Partial<Pick<DocumentMeta, 'emailId' | 'emailReplyTo' | 'language'>> & {
+  companyLogoUrl?: string | null;
+};
 
 type BaseGetEmailContextOptions = {
   /**
@@ -94,6 +96,13 @@ export const getEmailContext = async (
   }
 
   const emailLanguage = meta?.language || emailContext.settings.documentLanguage;
+
+  // Per-document co-branding: recipient emails may carry the signer company's own
+  // logo (public URL) alongside the team/organisation brand logo. Injected here so
+  // recipient email templates pick it up via the shared branding context.
+  if (options.emailType === 'RECIPIENT' && options.meta?.companyLogoUrl) {
+    emailContext.branding.companyLogo = options.meta.companyLogoUrl;
+  }
 
   // Immediate return for internal emails.
   if (options.emailType === 'INTERNAL') {

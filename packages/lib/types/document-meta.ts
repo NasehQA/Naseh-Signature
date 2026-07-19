@@ -28,6 +28,7 @@ export const ZDocumentMetaSchema = DocumentMetaSchema.pick({
   drawSignatureEnabled: true,
   language: true,
   emailSettings: true,
+  companyLogoUrl: true,
 });
 
 export type TDocumentMeta = z.infer<typeof ZDocumentMetaSchema>;
@@ -91,6 +92,14 @@ export const ZDocumentMetaMessageSchema = z
   .max(5000)
   .describe('The message of the email that will be sent to the recipients.');
 
+export const ZDocumentMetaCompanyLogoUrlSchema = z
+  .string()
+  .url()
+  .max(2048)
+  .describe(
+    'Public image URL of a per-document company logo, shown next to the brand logo in recipient emails.',
+  );
+
 export const ZDocumentMetaDistributionMethodSchema = z
   .nativeEnum(DocumentDistributionMethod)
   .describe('The distribution method to use when sending the document to the recipients.');
@@ -127,6 +136,7 @@ export const ZDocumentMetaCreateSchema = z.object({
   drawSignatureEnabled: ZDocumentMetaDrawSignatureEnabledSchema.optional(),
   emailId: z.string().nullish(),
   emailReplyTo: z.string().email().nullish(),
+  companyLogoUrl: ZDocumentMetaCompanyLogoUrlSchema.nullish(),
   emailSettings: ZDocumentEmailSettingsSchema.nullish(),
 });
 

@@ -1,0 +1,47 @@
+name: Deploy fork to Test Env
+
+# Deploys this Documenso fork (v2.6.1 + Naseh patches) to the Azure test VM on
+# every push to `dev`. Prod (main) is deployed by Railway building this repo
+# directly — no workflow here.
+#
+# One-time VM setup (do once, by hand):
+#   1. On the test VM, clone THIS fork (not upstream) into $DOCUMENSO_APP_PATH:
+#        git clone https://github.com/NasehQA/Naseh-Signature.git ~/naseh-documenso
+#   2. Copy your existing ~/documenso/.env into it (same DB, SMTP, signing cert, WEBAPP_URL).
+#   3. Make sure the compose file builds from source instead of pulling the Docker Hub
+#      image — i.e. the documenso service uses:
+#        build:
+#          context: .
+#          dockerfile: docker/Dockerfile
+#      (replacing `image: documenso/documenso:<tag>`).
+#   4. The container runs `prisma migrate deploy` on startup (docker/start.sh), so the
+#      companyLogoUrl migration applies automatically — no separate migrate step.
+#
+# Required repo secrets: SSH_HOST, SSH_USER, SSH_KEY, DOCUMENSO_APP_PATH, COMPOSE_FILE
+#   (COMPOSE_FILE e.g. docker/production/compose.yml — whichever builds from source)
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -e
+            cd ${{ secrets.DOCUMENSO_APP_PATH }}
+            git fetch origin
+            git checkout dev
+            git reset --hard origin/dev
+            # Rebuild the image from source and roll it out. The new container runs
+            # `prisma migrate deploy` on boot, applying any pending migrations.
+            docker compose -f ${{ secrets.COMPOSE_FILE }} --env-file .env up -d --build
+            docker image prune -f

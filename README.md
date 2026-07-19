@@ -1,3 +1,24 @@
+# Naseh E-Signature
+
+Self-hosted e-signature service for the Naseh platform.
+
+**This is a fork of [Documenso](https://github.com/documenso/documenso)** (based on **v2.6.1**),
+the open-source DocuSign alternative, licensed under **AGPL-3.0** (see [`LICENSE`](./LICENSE)).
+Upstream copyright and attribution are retained. The complete modified source is available in
+this repository, as required by AGPL-3.0 §13.
+
+## Modifications from upstream
+
+- **Per-document company-logo co-branding** — signing emails (invite + completed) render the
+  signer company's own logo next to Naseh's brand logo, without replacing it or removing the
+  "sent using Documenso" footer. Driven by a new optional `DocumentMeta.companyLogoUrl` (public
+  image URL) accepted on the `/envelope/create` API `meta`, injected into the recipient email
+  branding context, and rendered inline in the email templates.
+
+---
+
+_The original Documenso README follows below, unchanged._
+
 <img src="https://github.com/documenso/documenso/assets/13398220/a643571f-0239-46a6-a73e-6bef38d1228b" alt="Documenso Logo">
 
 <p align="center" style="margin-top: 20px">

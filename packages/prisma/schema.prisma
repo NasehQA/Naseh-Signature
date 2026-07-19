@@ -522,6 +522,11 @@ model DocumentMeta {
   emailReplyTo  String?
   emailId       String?
 
+  /// Optional per-document co-branding logo (public image URL). Rendered next to
+  /// the team/organisation brand logo in recipient emails. Set by API callers
+  /// (e.g. Kiyan) to show the signer's own company logo alongside Naseh's.
+  companyLogoUrl String?
+
   envelope Envelope?
 }
 

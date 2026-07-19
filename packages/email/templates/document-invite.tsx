@@ -65,17 +65,28 @@ export const DocumentInviteEmailTemplate = ({
       <Body className="mx-auto my-auto bg-white font-sans">
         <Section>
           <Container className="mx-auto mb-2 mt-8 max-w-xl rounded-lg border border-solid border-slate-200 p-4 backdrop-blur-sm">
-            <Section>
-              {branding.brandingEnabled && branding.brandingLogo ? (
-                <Img src={branding.brandingLogo} alt="Branding Logo" className="mb-4 h-6" />
-              ) : (
-                <Img
-                  src={getAssetUrl('/static/logo.png')}
-                  alt="Documenso Logo"
-                  className="mb-4 h-6"
-                />
-              )}
+            <Section className="mb-4">
+              <span className="inline-block align-middle">
+                {branding.brandingEnabled && branding.brandingLogo ? (
+                  <Img src={branding.brandingLogo} alt="Branding Logo" className="h-6" />
+                ) : (
+                  <Img src={getAssetUrl('/static/logo.png')} alt="Documenso Logo" className="h-6" />
+                )}
+              </span>
 
+              {branding.companyLogo ? (
+                <>
+                  <span className="mx-3 inline-block h-6 w-px align-middle bg-slate-200" />
+                  <Img
+                    src={branding.companyLogo}
+                    alt="Company Logo"
+                    className="inline-block h-6 max-w-40 align-middle"
+                  />
+                </>
+              ) : null}
+            </Section>
+
+            <Section>
               <TemplateDocumentInvite
                 inviterName={inviterName}
                 inviterEmail={inviterEmail}
