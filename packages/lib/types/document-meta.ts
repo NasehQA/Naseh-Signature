@@ -29,6 +29,7 @@ export const ZDocumentMetaSchema = DocumentMetaSchema.pick({
   language: true,
   emailSettings: true,
   companyLogoUrl: true,
+  companyName: true,
 });
 
 export type TDocumentMeta = z.infer<typeof ZDocumentMetaSchema>;
@@ -100,6 +101,13 @@ export const ZDocumentMetaCompanyLogoUrlSchema = z
     'Public image URL of a per-document company logo, shown next to the brand logo in recipient emails.',
   );
 
+export const ZDocumentMetaCompanyNameSchema = z
+  .string()
+  .max(255)
+  .describe(
+    'Issuing company display name; replaces the sender account name as the inviter in recipient emails.',
+  );
+
 export const ZDocumentMetaDistributionMethodSchema = z
   .nativeEnum(DocumentDistributionMethod)
   .describe('The distribution method to use when sending the document to the recipients.');
@@ -137,6 +145,7 @@ export const ZDocumentMetaCreateSchema = z.object({
   emailId: z.string().nullish(),
   emailReplyTo: z.string().email().nullish(),
   companyLogoUrl: ZDocumentMetaCompanyLogoUrlSchema.nullish(),
+  companyName: ZDocumentMetaCompanyNameSchema.nullish(),
   emailSettings: ZDocumentEmailSettingsSchema.nullish(),
 });
 

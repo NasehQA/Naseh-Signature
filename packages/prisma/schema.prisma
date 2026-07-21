@@ -527,6 +527,11 @@ model DocumentMeta {
   /// (e.g. Kiyan) to show the signer's own company logo alongside Naseh's.
   companyLogoUrl String?
 
+  /// Optional issuing-company display name. When set, it replaces the sender's
+  /// account name as the "inviter" in recipient emails (e.g. "Acme Corp has
+  /// invited you to sign …"). Set by API callers (e.g. Kiyan).
+  companyName String?
+
   envelope Envelope?
 }
 
