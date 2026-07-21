@@ -1,24 +1,22 @@
-name: Deploy fork to Test Env
+name: Deploy fork to Test VM
 
-# Deploys this Documenso fork (v2.6.1 + Naseh patches) to the Azure test VM on
-# every push to `dev`. Prod (main) is deployed by Railway building this repo
-# directly — no workflow here.
+# Auto-deploys this Documenso fork to the Azure test VM on every push to `dev`.
+# Model: dev → test VM (this workflow) · main → prod (Railway builds the repo).
 #
-# One-time VM setup (do once, by hand):
-#   1. On the test VM, clone THIS fork (not upstream) into $DOCUMENSO_APP_PATH:
-#        git clone https://github.com/NasehQA/Naseh-Signature.git ~/naseh-documenso
-#   2. Copy your existing ~/documenso/.env into it (same DB, SMTP, signing cert, WEBAPP_URL).
-#   3. Make sure the compose file builds from source instead of pulling the Docker Hub
-#      image — i.e. the documenso service uses:
-#        build:
-#          context: .
-#          dockerfile: docker/Dockerfile
-#      (replacing `image: documenso/documenso:<tag>`).
-#   4. The container runs `prisma migrate deploy` on startup (docker/start.sh), so the
-#      companyLogoUrl migration applies automatically — no separate migrate step.
+# It SSHes into the test VM and runs the same manual sequence you'd run by hand:
+#   1. pull the latest source into the fork clone (~/naseh-documenso)
+#   2. rebuild the image (same tag)
+#   3. recreate the compose container (~/documenso) with the fresh image
+# The container runs `prisma migrate deploy` on boot, so DB migrations apply automatically.
 #
-# Required repo secrets: SSH_HOST, SSH_USER, SSH_KEY, DOCUMENSO_APP_PATH, COMPOSE_FILE
-#   (COMPOSE_FILE e.g. docker/production/compose.yml — whichever builds from source)
+# Required GitHub secrets (repo → Settings → Secrets → Actions):
+#   SSH_HOST  — the test VM host/IP (e.g. test-kayan.naseh.qa)
+#   SSH_USER  — the SSH user (e.g. azureuser)
+#   SSH_KEY   — the private SSH key with access to that user
+#
+# One-time VM setup (already done): ~/naseh-documenso is a clone of this repo,
+# and ~/documenso/compose.yml points its documenso service at
+# `image: naseh-documenso:v2.6.1-naseh`.
 
 on:
   push:
@@ -29,19 +27,28 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy via SSH
+      - name: Build & redeploy on the test VM
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          command_timeout: 30m # the Documenso image build is slow (~10–15 min)
           script: |
             set -e
-            cd ${{ secrets.DOCUMENSO_APP_PATH }}
+            # 1. Pull the latest fork source
+            cd ~/naseh-documenso
             git fetch origin
             git checkout dev
             git reset --hard origin/dev
-            # Rebuild the image from source and roll it out. The new container runs
-            # `prisma migrate deploy` on boot, applying any pending migrations.
-            docker compose -f ${{ secrets.COMPOSE_FILE }} --env-file .env up -d --build
+
+            # 2. Rebuild the image (same tag the compose references)
+            docker build -f docker/Dockerfile -t naseh-documenso:v2.6.1-naseh .
+
+            # 3. Recreate the running container with the fresh image
+            #    (migration runs on boot via docker/start.sh)
+            cd ~/documenso
+            docker compose up -d --force-recreate
+
+            # 4. Tidy up dangling images from the rebuild
             docker image prune -f
