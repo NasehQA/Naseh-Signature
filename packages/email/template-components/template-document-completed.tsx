@@ -1,7 +1,6 @@
 import { Trans } from '@lingui/react/macro';
 
 import { Button, Column, Img, Section, Text } from '../components';
-import { TemplateDocumentImage } from './template-document-image';
 
 export interface TemplateDocumentCompletedProps {
   downloadLink: string;
@@ -22,9 +21,7 @@ export const TemplateDocumentCompleted = ({
 
   return (
     <>
-      <TemplateDocumentImage className="mt-6" assetBaseUrl={assetBaseUrl} />
-
-      <Section>
+      <Section className="mt-2">
         <Section className="mb-4">
           <Column align="center">
             <Text className="text-base font-semibold text-[#7AC455]">
@@ -37,7 +34,7 @@ export const TemplateDocumentCompleted = ({
           </Column>
         </Section>
 
-        <Text className="text-primary mb-0 text-center text-lg font-semibold">
+        <Text className="mb-0 text-center text-lg font-semibold text-[#001639]">
           {customBody || <Trans>“{documentName}” was signed by all signers</Trans>}
         </Text>
 

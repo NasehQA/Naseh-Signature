@@ -31,28 +31,18 @@ export const DocumentCompletedEmailTemplate = ({
       <Head />
       <Preview>{_(previewText)}</Preview>
 
-      <Body className="mx-auto my-auto font-sans">
-        <Section className="bg-white">
-          <Container className="mx-auto mb-2 mt-8 max-w-xl rounded-lg border border-solid border-slate-200 p-2 backdrop-blur-sm">
+      <Body className="mx-auto my-auto bg-[#EDEEF1] font-sans">
+        <Section>
+          <Container className="mx-auto mb-2 mt-8 max-w-xl rounded-lg border border-solid border-slate-200 border-s-4 border-s-[#B5A569] bg-white p-4">
+            {/* Top logo = the issuing company's logo; falls back to the brand/Documenso logo. */}
             <Section className="mb-4 p-2">
-              <span className="inline-block align-middle">
-                {branding.brandingEnabled && branding.brandingLogo ? (
-                  <Img src={branding.brandingLogo} alt="Branding Logo" className="h-6" />
-                ) : (
-                  <Img src={getAssetUrl('/static/logo.png')} alt="Documenso Logo" className="h-6" />
-                )}
-              </span>
-
               {branding.companyLogo ? (
-                <>
-                  <span className="mx-3 inline-block h-6 w-px align-middle bg-slate-200" />
-                  <Img
-                    src={branding.companyLogo}
-                    alt="Company Logo"
-                    className="inline-block h-6 max-w-40 align-middle"
-                  />
-                </>
-              ) : null}
+                <Img src={branding.companyLogo} alt="Company Logo" className="h-10 max-w-40" />
+              ) : branding.brandingEnabled && branding.brandingLogo ? (
+                <Img src={branding.brandingLogo} alt="Branding Logo" className="h-6" />
+              ) : (
+                <Img src={getAssetUrl('/static/logo.png')} alt="Documenso Logo" className="h-6" />
+              )}
             </Section>
 
             <Section className="p-2">

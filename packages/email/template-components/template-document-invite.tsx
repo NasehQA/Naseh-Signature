@@ -6,7 +6,6 @@ import { P, match } from 'ts-pattern';
 import { RECIPIENT_ROLES_DESCRIPTION } from '@documenso/lib/constants/recipient-roles';
 
 import { Button, Section, Text } from '../components';
-import { TemplateDocumentImage } from './template-document-image';
 
 export interface TemplateDocumentInviteProps {
   inviterName: string;
@@ -25,7 +24,6 @@ export const TemplateDocumentInvite = ({
   inviterName,
   documentName,
   signDocumentLink,
-  assetBaseUrl,
   role,
   selfSigner,
   teamName,
@@ -38,10 +36,8 @@ export const TemplateDocumentInvite = ({
 
   return (
     <>
-      <TemplateDocumentImage className="mt-6" assetBaseUrl={assetBaseUrl} />
-
-      <Section>
-        <Text className="text-primary mx-auto mb-0 max-w-[80%] text-center text-lg font-semibold">
+      <Section className="mt-2">
+        <Text className="mx-auto mb-0 max-w-[80%] text-center text-lg font-semibold text-[#001639]">
           {match({ selfSigner, organisationType, includeSenderDetails, teamName })
             .with({ selfSigner: true }, () => (
               <Trans>
@@ -91,7 +87,7 @@ export const TemplateDocumentInvite = ({
 
         <Section className="mb-6 mt-8 text-center">
           <Button
-            className="bg-documenso-500 text-sbase inline-flex items-center justify-center rounded-lg px-6 py-3 text-center font-medium text-black no-underline"
+            className="inline-flex items-center justify-center rounded-lg bg-[#001639] px-6 py-3 text-center text-base font-medium text-white no-underline"
             href={signDocumentLink}
           >
             {match(role)
