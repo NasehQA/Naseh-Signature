@@ -92,20 +92,24 @@ export const DocumentInviteEmailTemplate = ({
             </Section>
           </Container>
 
-          <Container className="mx-auto mt-12 max-w-xl">
+          <Container className="mx-auto mt-6 max-w-xl">
             <Section>
               {organisationType === OrganisationType.PERSONAL && (
-                <Text className="my-4 text-base font-semibold">
-                  <Trans>
-                    {inviterName}{' '}
-                    <Link className="font-normal text-slate-400" href="mailto:{inviterEmail}">
-                      ({inviterEmail})
-                    </Link>
-                  </Trans>
+                <Text className="mb-1 mt-0 text-base font-semibold text-[#001639]">
+                  {inviterEmail ? (
+                    <Trans>
+                      {inviterName}{' '}
+                      <Link className="font-normal text-slate-400" href={`mailto:${inviterEmail}`}>
+                        ({inviterEmail})
+                      </Link>
+                    </Trans>
+                  ) : (
+                    inviterName
+                  )}
                 </Text>
               )}
 
-              <Text className="mt-2 text-base text-slate-400">
+              <Text className="mt-1 text-base text-slate-400">
                 {customBody ? (
                   <TemplateCustomMessageBody text={customBody} />
                 ) : (

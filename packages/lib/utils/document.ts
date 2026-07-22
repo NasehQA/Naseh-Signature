@@ -61,6 +61,7 @@ export const extractDerivedDocumentMeta = (
     emailId: meta.emailId ?? settings.emailId,
     emailReplyTo: meta.emailReplyTo ?? settings.emailReplyTo,
     companyLogoUrl: meta.companyLogoUrl ?? null,
+    companyName: meta.companyName ?? null,
     emailSettings:
       meta.emailSettings || settings.emailDocumentSettings || DEFAULT_DOCUMENT_EMAIL_SETTINGS,
   } satisfies Omit<DocumentMeta, 'id'>;

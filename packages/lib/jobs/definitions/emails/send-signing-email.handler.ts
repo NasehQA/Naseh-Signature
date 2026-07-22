@@ -160,11 +160,17 @@ export const run = async ({
   const assetBaseUrl = NEXT_PUBLIC_WEBAPP_URL() || 'http://localhost:3000';
   const signDocumentLink = `${NEXT_PUBLIC_WEBAPP_URL()}/sign/${recipient.token}`;
 
+  // When the API caller (e.g. Kiyan) supplies the issuing company's name, use it
+  // as the inviter instead of the Documenso account's personal name — and drop
+  // the personal email so it isn't shown next to a company name.
+  const companyName = envelope.documentMeta?.companyName || undefined;
+
   const template = createElement(DocumentInviteEmailTemplate, {
     documentName: envelope.title,
-    inviterName: user.name || undefined,
-    inviterEmail:
-      organisationType === OrganisationType.ORGANISATION
+    inviterName: companyName || user.name || undefined,
+    inviterEmail: companyName
+      ? undefined
+      : organisationType === OrganisationType.ORGANISATION
         ? team?.teamEmail?.email || user.email
         : user.email,
     assetBaseUrl,
