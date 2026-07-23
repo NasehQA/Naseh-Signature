@@ -17,13 +17,13 @@ import { getUserByEmail } from '@documenso/lib/server-only/user/get-user-by-emai
 import { isDocumentCompleted } from '@documenso/lib/utils/document';
 import { env } from '@documenso/lib/utils/env';
 import { trpc } from '@documenso/trpc/react';
-import { DocumentShareButton } from '@documenso/ui/components/document/document-share-button';
 import { SigningCard3D } from '@documenso/ui/components/signing-card';
 import { cn } from '@documenso/ui/lib/utils';
 import { Badge } from '@documenso/ui/primitives/badge';
 import { Button } from '@documenso/ui/primitives/button';
 
 import { EnvelopeDownloadDialog } from '~/components/dialogs/envelope-download-dialog';
+import { BrandingLogo } from '~/components/general/branding-logo';
 import { ClaimAccount } from '~/components/general/claim-account';
 import { DocumentSigningAuthPageView } from '~/components/general/document-signing/document-signing-auth-page';
 
@@ -143,7 +143,9 @@ export default function CompletedSigningPage({ loaderData }: Route.ComponentProp
   return (
     <div
       className={cn(
-        '-mx-4 flex flex-col items-center overflow-hidden px-4 pt-16 md:-mx-8 md:px-8 lg:pt-20 xl:pt-28',
+        // Fill the viewport (minus header + main margins) so the attribution
+        // pins to the bottom within 100vh on desktop; content scrolls on mobile.
+        '-mx-4 flex min-h-[calc(100vh-9rem)] flex-col items-center px-4 pt-16 md:-mx-8 md:px-8 lg:pt-20 xl:pt-28',
         { 'pt-0 lg:pt-0 xl:pt-0': canSignUp },
       )}
     >
@@ -244,12 +246,6 @@ export default function CompletedSigningPage({ loaderData }: Route.ComponentProp
             ))}
 
           <div className="mt-8 flex w-full max-w-xs flex-col items-stretch gap-4 md:w-auto md:max-w-none md:flex-row md:items-center">
-            <DocumentShareButton
-              documentId={document.id}
-              token={recipient.token}
-              className="w-full max-w-none md:flex-1"
-            />
-
             {isDocumentCompleted(document) && (
               <EnvelopeDownloadDialog
                 envelopeId={document.envelopeId}
@@ -293,6 +289,17 @@ export default function CompletedSigningPage({ loaderData }: Route.ComponentProp
           )}
         </div>
       </div>
+
+      {/* Powered-by attribution — pinned to the bottom within 100vh (kept per AGPL). */}
+      <a
+        href="https://documenso.com"
+        target="_blank"
+        rel="noreferrer"
+        className="mt-auto flex items-center pb-4 pt-8 text-xs font-medium text-muted-foreground hover:text-foreground"
+      >
+        <Trans>Powered by</Trans>
+        <BrandingLogo className="ml-2 inline-block h-[14px]" />
+      </a>
     </div>
   );
 }

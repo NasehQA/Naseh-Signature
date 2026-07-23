@@ -1,12 +1,11 @@
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
-import { Trans } from '@lingui/react/macro';
 import type { RecipientRole } from '@prisma/client';
 import { OrganisationType } from '@prisma/client';
 
 import { RECIPIENT_ROLES_DESCRIPTION } from '@documenso/lib/constants/recipient-roles';
 
-import { Body, Container, Head, Hr, Html, Img, Link, Preview, Section, Text } from '../components';
+import { Body, Container, Head, Hr, Html, Img, Preview, Section, Text } from '../components';
 import { useBranding } from '../providers/branding';
 import { TemplateCustomMessageBody } from '../template-components/template-custom-message-body';
 import type { TemplateDocumentInviteProps } from '../template-components/template-document-invite';
@@ -59,20 +58,31 @@ export const DocumentInviteEmailTemplate = ({
 
   return (
     <Html>
-      <Head />
+      {/* Lock light mode so Yahoo/Gmail dark mode can't invert the white card. */}
+      <Head>
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light" />
+      </Head>
       <Preview>{_(previewText)}</Preview>
 
       <Body className="mx-auto my-auto bg-[#EDEEF1] font-sans">
         <Section>
           <Container className="mx-auto mb-2 mt-8 max-w-xl rounded-lg border border-solid border-slate-200 border-s-4 border-s-[#B5A569] bg-white p-6">
-            {/* Top logo = the issuing company's logo; falls back to the brand/Documenso logo. */}
+            {/* Top logo = the issuing company's logo; falls back to the brand/Documenso logo.
+                Explicit height= attributes so Yahoo (which ignores CSS height) doesn't blow
+                the image up to its natural size. */}
             <Section className="mb-4">
               {branding.companyLogo ? (
-                <Img src={branding.companyLogo} alt="Company Logo" className="h-10 max-w-40" />
+                <Img src={branding.companyLogo} alt="Company Logo" height={40} className="h-10 max-w-40" />
               ) : branding.brandingEnabled && branding.brandingLogo ? (
-                <Img src={branding.brandingLogo} alt="Branding Logo" className="h-6" />
+                <Img src={branding.brandingLogo} alt="Branding Logo" height={24} className="h-6" />
               ) : (
-                <Img src={getAssetUrl('/static/logo.png')} alt="Documenso Logo" className="h-6" />
+                <Img
+                  src={getAssetUrl('/static/logo.png')}
+                  alt="Documenso Logo"
+                  height={24}
+                  className="h-6"
+                />
               )}
             </Section>
 
@@ -92,34 +102,18 @@ export const DocumentInviteEmailTemplate = ({
             </Section>
           </Container>
 
-          <Container className="mx-auto mt-6 max-w-xl">
-            <Section>
-              {organisationType === OrganisationType.PERSONAL && (
-                <Text className="mb-1 mt-0 text-base font-semibold text-[#001639]">
-                  {inviterEmail ? (
-                    <Trans>
-                      {inviterName}{' '}
-                      <Link className="font-normal text-slate-400" href={`mailto:${inviterEmail}`}>
-                        ({inviterEmail})
-                      </Link>
-                    </Trans>
-                  ) : (
-                    inviterName
-                  )}
-                </Text>
-              )}
-
-              <Text className="mt-1 text-base text-slate-400">
-                {customBody ? (
+          {/* Only show a message block when the sender wrote a real custom message.
+              The default "X has invited you to sign …" text just duplicates the
+              heading above, so it (and the inviter's email) are omitted. */}
+          {customBody ? (
+            <Container className="mx-auto mt-6 max-w-xl">
+              <Section>
+                <Text className="mt-1 text-base text-slate-400">
                   <TemplateCustomMessageBody text={customBody} />
-                ) : (
-                  <Trans>
-                    {inviterName} has invited you to {action} the document "{documentName}".
-                  </Trans>
-                )}
-              </Text>
-            </Section>
-          </Container>
+                </Text>
+              </Section>
+            </Container>
+          ) : null}
 
           <Hr className="mx-auto mt-12 max-w-xl" />
 
