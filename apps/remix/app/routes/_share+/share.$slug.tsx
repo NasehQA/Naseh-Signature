@@ -13,15 +13,15 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
   }
 
   return [
-    { title: 'Documenso - Share' },
-    { description: 'I just signed a document in style with Documenso!' },
+    { title: 'Naseh - Share' },
+    { description: 'I just signed a document securely with Naseh.' },
     {
       property: 'og:title',
-      content: 'Documenso - Join the open source signing revolution',
+      content: 'Signed securely with Naseh',
     },
     {
       property: 'og:description',
-      content: 'I just signed with Documenso!',
+      content: 'I just signed a document securely with Naseh.',
     },
     {
       property: 'og:type',
@@ -30,10 +30,6 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     {
       property: 'og:image',
       content: `${NEXT_PUBLIC_WEBAPP_URL()}/share/${slug}/opengraph`,
-    },
-    {
-      name: 'twitter:site',
-      content: '@documenso',
     },
     {
       name: 'twitter:card',
@@ -45,7 +41,7 @@ export function meta({ params: { slug } }: Route.MetaArgs) {
     },
     {
       name: 'twitter:description',
-      content: 'I just signed with Documenso!',
+      content: 'I just signed a document securely with Naseh.',
     },
   ];
 }

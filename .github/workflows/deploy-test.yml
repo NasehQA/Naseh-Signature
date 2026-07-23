@@ -50,5 +50,8 @@ jobs:
             cd ~/documenso
             docker compose up -d --force-recreate
 
-            # 4. Tidy up dangling images from the rebuild
+            # 4. Reclaim disk from the rebuild. The BuildKit cache (~11 GB) is the
+            #    big one and is NOT removed by `image prune` — pruning it here keeps
+            #    repeated deploys from filling the OS disk (the earlier outage cause).
+            docker builder prune -af
             docker image prune -f

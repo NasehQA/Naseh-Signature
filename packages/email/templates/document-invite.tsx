@@ -1,12 +1,11 @@
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
-import { Trans } from '@lingui/react/macro';
 import type { RecipientRole } from '@prisma/client';
 import { OrganisationType } from '@prisma/client';
 
 import { RECIPIENT_ROLES_DESCRIPTION } from '@documenso/lib/constants/recipient-roles';
 
-import { Body, Container, Head, Hr, Html, Img, Link, Preview, Section, Text } from '../components';
+import { Body, Container, Head, Hr, Html, Img, Preview, Section, Text } from '../components';
 import { useBranding } from '../providers/branding';
 import { TemplateCustomMessageBody } from '../template-components/template-custom-message-body';
 import type { TemplateDocumentInviteProps } from '../template-components/template-document-invite';
@@ -92,34 +91,18 @@ export const DocumentInviteEmailTemplate = ({
             </Section>
           </Container>
 
-          <Container className="mx-auto mt-6 max-w-xl">
-            <Section>
-              {organisationType === OrganisationType.PERSONAL && (
-                <Text className="mb-1 mt-0 text-base font-semibold text-[#001639]">
-                  {inviterEmail ? (
-                    <Trans>
-                      {inviterName}{' '}
-                      <Link className="font-normal text-slate-400" href={`mailto:${inviterEmail}`}>
-                        ({inviterEmail})
-                      </Link>
-                    </Trans>
-                  ) : (
-                    inviterName
-                  )}
-                </Text>
-              )}
-
-              <Text className="mt-1 text-base text-slate-400">
-                {customBody ? (
+          {/* Only show a message block when the sender wrote a real custom message.
+              The default "X has invited you to sign …" text just duplicates the
+              heading above, so it (and the inviter's email) are omitted. */}
+          {customBody ? (
+            <Container className="mx-auto mt-6 max-w-xl">
+              <Section>
+                <Text className="mt-1 text-base text-slate-400">
                   <TemplateCustomMessageBody text={customBody} />
-                ) : (
-                  <Trans>
-                    {inviterName} has invited you to {action} the document "{documentName}".
-                  </Trans>
-                )}
-              </Text>
-            </Section>
-          </Container>
+                </Text>
+              </Section>
+            </Container>
+          ) : null}
 
           <Hr className="mx-auto mt-12 max-w-xl" />
 
