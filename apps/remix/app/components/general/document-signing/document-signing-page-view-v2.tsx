@@ -57,6 +57,10 @@ export const DocumentSigningPageViewV2 = () => {
     onDocumentRejected,
   } = useEmbedSigningContext() || {};
 
+  // Show attribution on the public signing page always; only an embed that paid
+  // for white-label (hidePoweredBy) may suppress it.
+  const showPoweredBy = !isEmbed || !hidePoweredBy;
+
   /**
    * The total remaining fields remaining for the current recipient or selected assistant recipient.
    *
@@ -199,7 +203,7 @@ export const DocumentSigningPageViewV2 = () => {
 
             {/* Desktop attribution — left-aligned at the bottom of the sidebar, always
                 visible within 100vh (kept per AGPL). */}
-            {!hidePoweredBy && (
+            {showPoweredBy && (
               <a
                 href="https://documenso.com"
                 target="_blank"
@@ -261,7 +265,7 @@ export const DocumentSigningPageViewV2 = () => {
               </div>
 
               {/* Mobile attribution — left-aligned line under the document (kept per AGPL). */}
-              {!hidePoweredBy && (
+              {showPoweredBy && (
                 <a
                   href="https://documenso.com"
                   target="_blank"
