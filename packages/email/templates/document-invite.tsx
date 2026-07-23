@@ -58,20 +58,31 @@ export const DocumentInviteEmailTemplate = ({
 
   return (
     <Html>
-      <Head />
+      {/* Lock light mode so Yahoo/Gmail dark mode can't invert the white card. */}
+      <Head>
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light" />
+      </Head>
       <Preview>{_(previewText)}</Preview>
 
       <Body className="mx-auto my-auto bg-[#EDEEF1] font-sans">
         <Section>
           <Container className="mx-auto mb-2 mt-8 max-w-xl rounded-lg border border-solid border-slate-200 border-s-4 border-s-[#B5A569] bg-white p-6">
-            {/* Top logo = the issuing company's logo; falls back to the brand/Documenso logo. */}
+            {/* Top logo = the issuing company's logo; falls back to the brand/Documenso logo.
+                Explicit height= attributes so Yahoo (which ignores CSS height) doesn't blow
+                the image up to its natural size. */}
             <Section className="mb-4">
               {branding.companyLogo ? (
-                <Img src={branding.companyLogo} alt="Company Logo" className="h-10 max-w-40" />
+                <Img src={branding.companyLogo} alt="Company Logo" height={40} className="h-10 max-w-40" />
               ) : branding.brandingEnabled && branding.brandingLogo ? (
-                <Img src={branding.brandingLogo} alt="Branding Logo" className="h-6" />
+                <Img src={branding.brandingLogo} alt="Branding Logo" height={24} className="h-6" />
               ) : (
-                <Img src={getAssetUrl('/static/logo.png')} alt="Documenso Logo" className="h-6" />
+                <Img
+                  src={getAssetUrl('/static/logo.png')}
+                  alt="Documenso Logo"
+                  height={24}
+                  className="h-6"
+                />
               )}
             </Section>
 

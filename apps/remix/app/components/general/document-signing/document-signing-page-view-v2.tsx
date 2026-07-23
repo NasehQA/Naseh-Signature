@@ -196,6 +196,20 @@ export const DocumentSigningPageViewV2 = () => {
                 </Button>
               </div>
             )}
+
+            {/* Desktop attribution — left-aligned at the bottom of the sidebar, always
+                visible within 100vh (kept per AGPL). */}
+            {!hidePoweredBy && (
+              <a
+                href="https://documenso.com"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 flex items-center px-4 text-xs font-medium text-muted-foreground hover:text-foreground"
+              >
+                <Trans>Powered by</Trans>
+                <BrandingLogo className="ml-2 inline-block h-[14px]" />
+              </a>
+            )}
           </div>
         </div>
 
@@ -246,15 +260,15 @@ export const DocumentSigningPageViewV2 = () => {
                 <DocumentSigningMobileWidget />
               </div>
 
+              {/* Mobile attribution — left-aligned line under the document (kept per AGPL). */}
               {!hidePoweredBy && (
                 <a
                   href="https://documenso.com"
                   target="_blank"
-                  className="fixed bottom-0 right-0 z-40 hidden cursor-pointer rounded-tl bg-primary px-2 py-1 text-xs font-medium text-primary-foreground opacity-60 hover:opacity-100 lg:block"
+                  rel="noreferrer"
+                  className="mb-4 mt-1 flex items-center px-4 text-xs font-medium text-muted-foreground lg:hidden"
                 >
-                  <span>
-                    <Trans>Powered by</Trans>
-                  </span>
+                  <Trans>Powered by</Trans>
                   <BrandingLogo className="ml-2 inline-block h-[14px]" />
                 </a>
               )}
