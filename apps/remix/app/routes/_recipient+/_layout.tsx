@@ -28,16 +28,33 @@ export default function RecipientLayout({ matches }: Route.ComponentProps) {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col">
       {!hideHeader && sessionData?.user && <AuthenticatedHeader />}
 
       <main
-        className={cn({
+        className={cn('flex-1', {
           'mb-8 mt-8 px-4 md:mb-12 md:mt-12 md:px-8': !hideHeader,
         })}
       >
         <Outlet />
       </main>
+
+      {/* Documenso attribution — kept at the bottom of the signing experience (AGPL). */}
+      <footer className="border-t border-border py-3 text-center">
+        <p className="text-xs text-muted-foreground">
+          <Trans>
+            Powered by{' '}
+            <a
+              href="https://documen.so"
+              target="_blank"
+              rel="noreferrer"
+              className="text-[#7AC455] hover:underline"
+            >
+              Documenso
+            </a>
+          </Trans>
+        </p>
+      </footer>
     </div>
   );
 }

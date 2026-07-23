@@ -17,9 +17,6 @@ import { Separator } from '@documenso/ui/primitives/separator';
 
 import { EnvelopeDownloadDialog } from '~/components/dialogs/envelope-download-dialog';
 import { useEmbedSigningContext } from '~/components/embed/embed-signing-context';
-import { BrandingLogo } from '~/components/general/branding-logo';
-
-import { BrandingLogoIcon } from '../branding-logo-icon';
 import { DocumentSigningRejectDialog } from '../document-signing/document-signing-reject-dialog';
 import { useRequiredEnvelopeSigningContext } from '../document-signing/envelope-signing-provider';
 import { EnvelopeSignerCompleteDialog } from './envelope-signing-complete-dialog';
@@ -44,8 +41,9 @@ export const EnvelopeSignerHeader = () => {
               />
             ) : (
               <>
-                <BrandingLogo className="hidden h-6 w-auto md:block" />
-                <BrandingLogoIcon className="h-6 w-auto md:hidden" />
+                {/* Naseh brand — navy logo on light theme, white logo on dark. */}
+                <img src="/naseh-light.png" alt="Naseh" className="h-6 w-auto dark:hidden" />
+                <img src="/naseh-dark.png" alt="Naseh" className="hidden h-6 w-auto dark:block" />
               </>
             )}
           </Link>
