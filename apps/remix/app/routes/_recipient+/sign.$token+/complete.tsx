@@ -23,6 +23,7 @@ import { Badge } from '@documenso/ui/primitives/badge';
 import { Button } from '@documenso/ui/primitives/button';
 
 import { EnvelopeDownloadDialog } from '~/components/dialogs/envelope-download-dialog';
+import { BrandingLogo } from '~/components/general/branding-logo';
 import { ClaimAccount } from '~/components/general/claim-account';
 import { DocumentSigningAuthPageView } from '~/components/general/document-signing/document-signing-auth-page';
 
@@ -142,7 +143,9 @@ export default function CompletedSigningPage({ loaderData }: Route.ComponentProp
   return (
     <div
       className={cn(
-        '-mx-4 flex flex-col items-center overflow-hidden px-4 pt-16 md:-mx-8 md:px-8 lg:pt-20 xl:pt-28',
+        // Fill the viewport (minus header + main margins) so the attribution
+        // pins to the bottom within 100vh on desktop; content scrolls on mobile.
+        '-mx-4 flex min-h-[calc(100vh-9rem)] flex-col items-center px-4 pt-16 md:-mx-8 md:px-8 lg:pt-20 xl:pt-28',
         { 'pt-0 lg:pt-0 xl:pt-0': canSignUp },
       )}
     >
@@ -286,6 +289,17 @@ export default function CompletedSigningPage({ loaderData }: Route.ComponentProp
           )}
         </div>
       </div>
+
+      {/* Powered-by attribution — pinned to the bottom within 100vh (kept per AGPL). */}
+      <a
+        href="https://documenso.com"
+        target="_blank"
+        rel="noreferrer"
+        className="mt-auto flex items-center pb-4 pt-8 text-xs font-medium text-muted-foreground hover:text-foreground"
+      >
+        <Trans>Powered by</Trans>
+        <BrandingLogo className="ml-2 inline-block h-[14px]" />
+      </a>
     </div>
   );
 }
