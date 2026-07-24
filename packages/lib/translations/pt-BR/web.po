@@ -3938,6 +3938,7 @@ msgstr "Documentação"
 #: apps/remix/app/components/general/app-nav-mobile.tsx
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-upload-page.tsx
 #: apps/remix/app/components/general/skeletons/document-edit-skeleton.tsx
+#: apps/remix/app/components/general/user-profile-skeleton.tsx
 #: apps/remix/app/components/general/user-profile-timur.tsx
 #: apps/remix/app/components/tables/admin-dashboard-users-table.tsx
 #: apps/remix/app/components/tables/organisation-insights-table.tsx
@@ -4298,6 +4299,22 @@ msgstr "Preferências de E-mail"
 msgid "Email preferences updated"
 msgstr "Preferências de e-mail atualizadas"
 
+#: packages/ui/components/document/document-email-checkboxes.tsx
+msgid "Email recipients when a pending document is deleted"
+msgstr ""
+
+#: packages/ui/components/document/document-email-checkboxes.tsx
+msgid "Email recipients when the document is completed"
+msgstr ""
+
+#: packages/ui/components/document/document-email-checkboxes.tsx
+msgid "Email recipients when they're removed from a pending document"
+msgstr ""
+
+#: packages/ui/components/document/document-email-checkboxes.tsx
+msgid "Email recipients with a signing request"
+msgstr ""
+
 #: packages/lib/utils/document-audit-logs.ts
 msgctxt "Audit log format"
 msgid "Email resent"
@@ -4322,6 +4339,18 @@ msgstr "E-mail enviado!"
 #: apps/remix/app/components/general/envelope-editor/envelope-editor-fields-page.tsx
 msgid "Email Settings"
 msgstr "Configurações de E-mail"
+
+#: packages/ui/components/document/document-email-checkboxes.tsx
+msgid "Email the owner when a recipient signs"
+msgstr ""
+
+#: packages/ui/components/document/document-email-checkboxes.tsx
+msgid "Email the owner when the document is completed"
+msgstr ""
+
+#: packages/ui/components/document/document-email-checkboxes.tsx
+msgid "Email the signer if the document is still pending"
+msgstr ""
 
 #: apps/remix/app/components/general/document-signing/access-auth-2fa-form.tsx
 msgid "Email verification"
@@ -5352,6 +5381,10 @@ msgstr "Incluir os Logs de Auditoria no Documento"
 msgid "Include the Signing Certificate in the Document"
 msgstr "Incluir o Certificado de Assinatura no Documento"
 
+#: apps/remix/app/components/general/billing-plans.tsx
+msgid "Includes:"
+msgstr ""
+
 #: apps/remix/app/components/general/document/document-page-view-information.tsx
 #: apps/remix/app/components/general/template/template-page-view-information.tsx
 msgid "Information"
@@ -5427,6 +5460,10 @@ msgstr "Domínios inválidos"
 #: packages/ui/primitives/document-flow/add-signers.types.ts
 msgid "Invalid email"
 msgstr "E-mail inválido"
+
+#: apps/remix/app/routes/embed+/v1+/authoring+/_layout.tsx
+msgid "Invalid embedding presign token provided"
+msgstr ""
 
 #: apps/remix/app/components/general/admin-license-card.tsx
 msgid "Invalid License Key"
@@ -5781,6 +5818,8 @@ msgstr "Carregando sugestões..."
 #: apps/remix/app/components/embed/embed-client-loading.tsx
 #: apps/remix/app/components/general/default-recipients-multiselect-combobox.tsx
 #: apps/remix/app/components/general/document/document-page-view-recent-activity.tsx
+#: packages/ui/components/pdf-viewer/pdf-viewer-konva-lazy.tsx
+#: packages/ui/primitives/pdf-viewer/lazy.tsx
 msgid "Loading..."
 msgstr "Carregando..."
 
@@ -6408,6 +6447,10 @@ msgstr ""
 #: apps/remix/app/routes/_authenticated+/t.$teamUrl+/templates.$id._index.tsx
 msgid "Not found"
 msgstr "Não encontrado"
+
+#: apps/remix/app/routes/embed+/_v0+/_layout.tsx
+msgid "Not Found"
+msgstr ""
 
 #: apps/remix/app/components/forms/signin.tsx
 msgid "Not supported"
@@ -8164,22 +8207,6 @@ msgstr "Enviar documento"
 msgid "Send Document"
 msgstr "Enviar Documento"
 
-#: packages/ui/components/document/document-email-checkboxes.tsx
-msgid "Send document completed email"
-msgstr "Enviar e-mail de documento concluído"
-
-#: packages/ui/components/document/document-email-checkboxes.tsx
-msgid "Send document completed email to the owner"
-msgstr "Enviar e-mail de documento concluído para o proprietário"
-
-#: packages/ui/components/document/document-email-checkboxes.tsx
-msgid "Send document deleted email"
-msgstr "Enviar e-mail de documento excluído"
-
-#: packages/ui/components/document/document-email-checkboxes.tsx
-msgid "Send document pending email"
-msgstr "Enviar e-mail de documento pendente"
-
 #: packages/email/templates/confirm-team-email.tsx
 msgid "Send documents on behalf of the team using the email address"
 msgstr "Enviar documentos em nome da equipe usando o endereço de e-mail"
@@ -8191,18 +8218,6 @@ msgstr "Enviar documentos para destinatários imediatamente"
 #: apps/remix/app/components/forms/document-preferences-form.tsx
 msgid "Send on Behalf of Team"
 msgstr "Enviar em Nome da Equipe"
-
-#: packages/ui/components/document/document-email-checkboxes.tsx
-msgid "Send recipient removed email"
-msgstr "Enviar e-mail de destinatário removido"
-
-#: packages/ui/components/document/document-email-checkboxes.tsx
-msgid "Send recipient signed email"
-msgstr "Enviar e-mail de destinatário assinado"
-
-#: packages/ui/components/document/document-email-checkboxes.tsx
-msgid "Send recipient signing request email"
-msgstr "Enviar e-mail de solicitação de assinatura do destinatário"
 
 #: apps/remix/app/components/dialogs/document-resend-dialog.tsx
 #: apps/remix/app/components/dialogs/envelope-redistribute-dialog.tsx
